@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prediction</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">📈 Stock Price Prediction</h1>
+        <form action="/predict" method="post" class="form">
+            <label for="ticker">Stock Ticker:</label>
+            <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL, TSLA" required>
+
+            <label for="period">Prediction Period:</label>
+            <select id="period" name="period">
+                <option value="1mo">1 Month</option>
+                <option value="6mo">6 Months</option>
+                <option value="1y">1 Year</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>
