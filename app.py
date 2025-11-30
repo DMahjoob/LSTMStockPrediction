@@ -128,6 +128,8 @@ def predict():
 
     # Pass final predicted price to the template
     return render_template('result.html', ticker=ticker, period=period, plot_url=plot_url, final_price=final_price)
-
+    
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port)
+
