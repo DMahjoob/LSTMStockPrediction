@@ -10,8 +10,21 @@ from torch.utils.data import DataLoader, TensorDataset
 import os
 import io
 import base64
-
+import time
+import yfinance as yf
 app = Flask(__name__)
+
+cache = {}
+CACHE_TTL = 60 * 60 * 24  # 24 hours
+
+def get_cached_history(ticker):
+    now = time.time()
+    if ticker in cache and now - cache[ticker]["time"] < CACHE_TTL:
+        return cache[ticker]["data"]
+
+    df = yf.Ticker(ticker).history(period='10y')
+    cache[ticker] = {"data": df, "time": now}
+    return df
 
 # Define the home route
 @app.route('/')
@@ -48,7 +61,7 @@ def predict():
     future_days = {'1mo': 30, '6mo': 180, '1y': 365}.get(period, 30)  # Default to 30 days if invalid
 
     # Fetch stock data from Yahoo Finance
-    df = yf.Ticker(ticker).history(period='10y')
+    df = get_cached_history(ticker)
 
     # Use the 'Close' column and drop missing values
     data = df[['Close']].dropna()
